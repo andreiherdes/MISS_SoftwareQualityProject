@@ -2,3 +2,6 @@ release.properties
 target
 .idea
 *.iml
+.classpath
+.project
+.settings

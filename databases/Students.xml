@@ -14,5 +14,13 @@
       </schema>
       <rows/>
     </table>
+  <table name="Note">
+      <schema>
+        <col>id</col>
+        <col>nume</col>
+        <col>prenume</col>
+      </schema>
+      <rows/>
+    </table>
   </tables>
 </database>
