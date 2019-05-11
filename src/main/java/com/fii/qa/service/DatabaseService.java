@@ -1,5 +1,5 @@
 package com.fii.qa.service;
-import org.apache.commons.lang3.ObjectUtils;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -13,7 +13,7 @@ public class DatabaseService {
     private static final String DATABASE = "database";
     private static final String databasesDirectory ="databases/";
 
-    public boolean createDatabase(String name) {
+    public void createDatabase(String name) {
         final String databaseFilePath = databasesDirectory + name + ".xml";
 
         try {
@@ -28,18 +28,15 @@ public class DatabaseService {
             root.appendChild(doc.createElement("tables"));
 
             XmlWriterService.writeXMLFile(doc, databaseFilePath);
-            return true;
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public void deleteDatabase(String name) {
         final String databaseFilePath = databasesDirectory + name + ".xml";
 
         if(!databaseExists(name)) {
-            System.out.println("Database does not exist!");
             return;
         }
 
@@ -51,7 +48,6 @@ public class DatabaseService {
         final String databaseFilePath = databasesDirectory + name + ".xml";
 
         if(!databaseExists(name)) {
-            System.out.println("Database does not exist!");
             return;
         }
 
@@ -79,7 +75,6 @@ public class DatabaseService {
 
     private boolean databaseExists(String name) {
         final String databaseFilePath = databasesDirectory + name + ".xml";
-
         return new File(databaseFilePath).exists();
 
     }

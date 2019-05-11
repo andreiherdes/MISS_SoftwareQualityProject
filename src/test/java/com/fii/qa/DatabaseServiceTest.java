@@ -1,28 +1,56 @@
 package com.fii.qa;
 
+import com.fii.qa.service.DatabaseService;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.io.File;
+import static org.junit.Assert.assertTrue;
 
 public class DatabaseServiceTest {
 
-    @Before
-    public void B() {
-
-    }
+    private static final String databasesDirectory ="databases/";
+    private String databaseName = "Employee";
+    private String newDatabaseName = "Employee2";
 
     @After
-    public void C() {
-
+    public void after() {
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.deleteDatabase(databaseName);
+        databaseService.deleteDatabase(newDatabaseName);
     }
 
     @Test
-    public void CreateDatabaseTest() {
-        String hello = "Hello World";
+    public void CreateDatabase_True() {
+        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
 
-        assertEquals (hello, "Hello World");
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.createDatabase(databaseName);
+
+        assertTrue(new File(databaseFilePath).exists());
+    }
+
+    @Test
+    public void DeleteDatabase_True() {
+        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
+
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.createDatabase(databaseName);
+
+        databaseService.deleteDatabase(databaseName);
+
+        assertTrue(!(new File(databaseFilePath).exists()));
+    }
+
+    @Test
+    public void ChangeDatabase_True() {
+        final String databaseFilePath = databasesDirectory + newDatabaseName + ".xml";
+
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.createDatabase(databaseName);
+        databaseService.changeDatabase(databaseName, newDatabaseName);
+
+        assertTrue(new File(databaseFilePath).exists());
     }
 
 }
