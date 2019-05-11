@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="Students">
+  <tables>
+    <table name="Teachers">
+      <schema>
+        <col/>
+      </schema>
+      <rows/>
+    </table>
+  <table name="Teachers">
+      <schema>
+        <col>first_name</col>
+        <col>last_name</col>
+      </schema>
+      <rows/>
+    </table>
+  </tables>
+</database>
