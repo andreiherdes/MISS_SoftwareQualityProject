@@ -7,38 +7,39 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Array;
+import java.util.*;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class CRUDServiceTest {
+    private List<String> columns = new ArrayList<>();
+    private Map<String,String> values = new HashMap<>();
     @Before
     public void B() {
         DatabaseService dbService = new DatabaseService();
         dbService.createDatabase("BD");
+        CRUDService crudService = new CRUDService();
+        TableService tableService = new TableService();
+
+        columns.add("1");
+        columns.add("2");
+        columns.add("3");
+
+        tableService.createTable("BD","test",columns);
+
+        values.put("1","unu");
+        values.put("2","doi");
+        values.put("3","trei");
+
+        crudService.insertRow("BD","test",values);
     }
 
     @Test
     public void insertRowTest() {
         CRUDService crudService = new CRUDService();
-        TableService tableService = new TableService();
-
-        List<String> columns = new ArrayList<>();
-        columns.add("1");
-        columns.add("2");
-        columns.add("3");
-        tableService.createTable("BD","test",columns);
-
-        Map<String,String> values = new HashMap<>();
-        values.put("1","unu");
-        values.put("2","doi");
-        values.put("3","trei");
-        crudService.insertRow("BD","test",values);
-
-        assertEquals (values,crudService.select("BD","test",values).get(0));
+        assertEquals (Arrays.asList(values),crudService.select("BD","test",values));
     }
 
     @After
