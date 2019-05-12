@@ -1,5 +1,6 @@
 package com.fii.qa.ui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -46,14 +47,15 @@ public class DatabasePanel extends JPanel {
 		buttonPanel.add(deleteDatabaseButton);
 		buttonPanel.add(renameDatabaseButton);
 
-		this.add(textFieldPanel);
-		this.add(buttonPanel);
+		this.add(textFieldPanel, BorderLayout.CENTER);
+		this.add(buttonPanel, BorderLayout.PAGE_END);
 
 		createDatabaseButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				databaseService.createDatabase(databaseName.getText());
+				DropdownComponent.getInstance().updateDropdown();
 			}
 		});
 
@@ -62,6 +64,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				databaseService.deleteDatabase(databaseName.getText());
+				DropdownComponent.getInstance().updateDropdown();
 			}
 		});
 
@@ -70,6 +73,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				databaseService.changeDatabase(databaseName.getText(), databaseNameForUpdate.getText());
+				DropdownComponent.getInstance().updateDropdown();
 
 			}
 		});

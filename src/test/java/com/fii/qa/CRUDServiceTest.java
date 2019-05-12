@@ -1,17 +1,20 @@
 package com.fii.qa;
 
-import com.fii.qa.service.CRUDService;
-import com.fii.qa.service.DatabaseService;
-import com.fii.qa.service.TableService;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.*;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import com.fii.qa.service.CRUDService;
+import com.fii.qa.service.DatabaseService;
+import com.fii.qa.service.TableService;
 
 public class CRUDServiceTest {
     private List<String> columns = new ArrayList<>();

@@ -82,9 +82,9 @@ public class DatabaseService {
 	public String[] getAllDatabases() {
 		File[] files = new File(databasesDirectory).listFiles();
 		String[] databaseNames = new String[files.length];
-
+		
+		int counter = 0;
 		for (File file : files) {
-			int counter = 0;
 			if (file.isFile()) {
 				databaseNames[counter] = file.getName().substring(0, file.getName().indexOf("."));
 				counter++;

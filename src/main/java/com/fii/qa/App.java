@@ -1,10 +1,16 @@
 package com.fii.qa;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import com.fii.qa.ui.DatabasePanel;
+import com.fii.qa.ui.DropdownComponent;
+import com.fii.qa.ui.ImportExportPanel;
 import com.fii.qa.ui.TablePanel;
 
 /**
@@ -24,6 +30,7 @@ public class App extends JFrame {
 
 	private DatabasePanel databasePanel = new DatabasePanel();
 	private TablePanel tablePanel = new TablePanel();
+	private ImportExportPanel importExportPanel = new ImportExportPanel();
 
 	/** Constructor to setup the UI components */
 	public App() {
@@ -38,37 +45,9 @@ public class App extends JFrame {
 
 		tp.add("Database", databasePanel);
 		tp.add("Table", tablePanel);
+		tp.add("Import/Export", importExportPanel);
 		this.add(tp);
 		this.pack();
-
-		/*
-		 * createEntryButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { String[]
-		 * entryNamesArray = entryValue.getText().split(","); String[] columnNamesArray
-		 * = columnNames.getText().split(",");
-		 * 
-		 * Map<String, String> values = IntStream.range(0,
-		 * columnNamesArray.length).boxed() .collect(Collectors.toMap(i ->
-		 * columnNamesArray[i], i -> entryNamesArray[i]));
-		 * 
-		 * crudService.insertRow(databaseName.getText(), tableName.getText(), values);
-		 * 
-		 * } });
-		 * 
-		 * deleteEntryButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { String[]
-		 * entryNamesArray = entryValue.getText().split(","); String[] columnNamesArray
-		 * = columnNames.getText().split(",");
-		 * 
-		 * Map<String, String> values = IntStream.range(0,
-		 * columnNamesArray.length).boxed() .collect(Collectors.toMap(i ->
-		 * columnNamesArray[i], i -> entryNamesArray[i]));
-		 * crudService.deleteRow(databaseName.getText(), tableName.getText(), values);
-		 * 
-		 * } });
-		 */
 	}
 
 	/** The entry main() method */
@@ -79,5 +58,17 @@ public class App extends JFrame {
 				new App(); // Let the constructor do the job
 			}
 		});
+
+		/*
+		 * ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
+		 * e.scheduleAtFixedRate(new Runnable() {
+		 * 
+		 * @Override public void run() { SwingUtilities.invokeLater(new Runnable() {
+		 * 
+		 * @Override public void run() {
+		 * DropdownComponent.getInstance().updateDropdown(); }
+		 * 
+		 * }); } }, 0, 20, TimeUnit.SECONDS);
+		 */
 	}
 }
