@@ -5,13 +5,16 @@ import org.junit.After;
 import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DatabaseServiceTest {
 
     private static final String databasesDirectory ="databases/";
-    private String databaseName = "Employee";
-    private String newDatabaseName = "Employee2";
+    private String databaseName = "Company";
+    private String newDatabaseName = "Company2";
 
     @After
     public void after() {
@@ -51,6 +54,36 @@ public class DatabaseServiceTest {
         databaseService.changeDatabase(databaseName, newDatabaseName);
 
         assertTrue(new File(databaseFilePath).exists());
+    }
+
+    @Test
+    public void ChangeDatabase_whenDatabaseDoesNotExists() {
+        final String databaseFilePath = databasesDirectory + newDatabaseName + ".xml";
+
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.createDatabase(databaseName);
+        databaseService.changeDatabase("DatabaseDoesNotExists", newDatabaseName);
+
+        assertFalse(new File(databaseFilePath).exists());
+    }
+
+    @Test
+    public void ChangeDatabase_whenNewNameIsTheSame() {
+        final String databaseFilePath = databasesDirectory + newDatabaseName + ".xml";
+
+        DatabaseService databaseService = new DatabaseService();
+        databaseService.createDatabase(databaseName);
+        databaseService.changeDatabase(databaseName, databaseName);
+
+        assertFalse(new File(databaseFilePath).exists());
+    }
+
+    @Test
+    public void GetAllDatabasesTest() {
+        DatabaseService databaseService = new DatabaseService();
+        String[] allDatabases = {"Students"};
+
+        assertEquals(allDatabases, databaseService.getAllDatabases());
     }
 
 }
