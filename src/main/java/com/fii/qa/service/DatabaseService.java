@@ -15,7 +15,7 @@ public class DatabaseService {
 	private static final String DATABASE = "database";
 	private static final String databasesDirectory = "databases/";
 
-	public boolean createDatabase(String name) {
+	public void createDatabase(String name) {
 		final String databaseFilePath = databasesDirectory + name + ".xml";
 
 		try {
@@ -30,11 +30,9 @@ public class DatabaseService {
 			root.appendChild(doc.createElement("tables"));
 
 			XmlWriterService.writeXMLFile(doc, databaseFilePath);
-			return true;
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		return false;
 	}
 
 	public void deleteDatabase(String name) {
