@@ -21,10 +21,13 @@ public class CRUDService {
 
     public void insertRow(String dbName, String tableName, Map<String ,String> values){
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
+        assert values.size() > 0 : "\"Values\" is empty";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(databaseFilePath));
+
+            assert document != null : "Document is null";
 
             document.getDocumentElement().normalize();
             //get all the table tags
@@ -60,10 +63,13 @@ public class CRUDService {
 
     public void deleteRow(String dbName, String tableName, Map<String ,String> values){
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
+        assert values.size() > 0 : "\"Values\" is empty";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(databaseFilePath));
+
+            assert document != null : "Document is null";
 
             document.getDocumentElement().normalize();
             //get all the table tags
@@ -120,17 +126,23 @@ public class CRUDService {
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
         List<Map<String, String>> selectedRows = new ArrayList<>();
 
+        assert values.size() > 0 : "\"Values\" is empty";
+
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(new File(databaseFilePath));
+
+            assert document != null : "Document is null";
+
             document.getDocumentElement().normalize();
 
             Node table = getTable(document, tableName);
-            if(table == null) {
-                System.out.println("Table " + tableName + " does not exist!");
-                return null;
-            }
+            assert table != null : "Table " + tableName + " does not exist!";
+//            if(table == null) {
+//                System.out.println("Table " + tableName + " does not exist!");
+//                return null;
+//            }
 
             // get all <row> from <rows> tag
             NodeList rows = table.getChildNodes();
@@ -181,6 +193,7 @@ public class CRUDService {
     public void update(String dbName, String tableName, Map<String, String> params, Map<String, String> values) {
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
 
+        assert values.size() > 0 : "\"Values\" is empty";
         // select rows need to be updated
         List<Map<String, String>> selectedRows = select(dbName, tableName, params);
 
