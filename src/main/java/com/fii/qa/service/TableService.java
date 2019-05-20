@@ -17,8 +17,9 @@ public class TableService {
     private static final String databasesDirectory ="databases/";
 
     public void createTable(String databaseName, String tableName, List<String> columns) {
-        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
+        assert !XmlWriterService.tableExists(databaseName, tableName) : "Table '" + tableName + "' already exists!";
 
+        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -46,11 +47,15 @@ public class TableService {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+
+        assert XmlWriterService.tableExists(databaseName, tableName) : "Can't create table '" + tableName + "'";
     }
 
     public void deleteTable(String databaseName, String tableName) {
-        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
+        assert XmlWriterService.databaseExists(databaseName) : "Database '" + databaseName + "' does not exist";
+        assert XmlWriterService.tableExists(databaseName, tableName) : "Table '" + tableName + "' does not exist!";
 
+        final String databaseFilePath = databasesDirectory + databaseName + ".xml";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -70,6 +75,8 @@ public class TableService {
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+
+        assert !XmlWriterService.tableExists(databaseName, tableName) : "Can't delete table '" + tableName + "'";
     }
 
     public void changeTable(String databaseName, String tableName, List<String> columns) {

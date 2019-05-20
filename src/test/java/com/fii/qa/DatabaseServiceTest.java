@@ -19,8 +19,10 @@ public class DatabaseServiceTest {
     @After
     public void after() {
         DatabaseService databaseService = new DatabaseService();
-        databaseService.deleteDatabase(databaseName);
-        databaseService.deleteDatabase(newDatabaseName);
+        try {
+            databaseService.deleteDatabase(databaseName);
+            databaseService.deleteDatabase(newDatabaseName);
+        } catch (AssertionError ignored) {}
     }
 
     @Test
@@ -56,26 +58,18 @@ public class DatabaseServiceTest {
         assertTrue(new File(databaseFilePath).exists());
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void ChangeDatabase_whenDatabaseDoesNotExists() {
-        final String databaseFilePath = databasesDirectory + newDatabaseName + ".xml";
-
         DatabaseService databaseService = new DatabaseService();
         databaseService.createDatabase(databaseName);
         databaseService.changeDatabase("DatabaseDoesNotExists", newDatabaseName);
-
-        assertFalse(new File(databaseFilePath).exists());
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void ChangeDatabase_whenNewNameIsTheSame() {
-        final String databaseFilePath = databasesDirectory + newDatabaseName + ".xml";
-
         DatabaseService databaseService = new DatabaseService();
         databaseService.createDatabase(databaseName);
         databaseService.changeDatabase(databaseName, databaseName);
-
-        assertFalse(new File(databaseFilePath).exists());
     }
 
     @Test

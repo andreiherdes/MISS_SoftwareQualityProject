@@ -8,7 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -17,16 +21,24 @@ public class TableServiceTest {
     private String databaseName = "Company";
     private String tableName = "Employee";
 
+    private Map<String, String> params = new HashMap<>();
+
     @Before
     public void before() {
-        DatabaseService databaseService = new DatabaseService();
-        databaseService.createDatabase(databaseName);
+        params.put("1", "2");
+
+        try {
+            DatabaseService databaseService = new DatabaseService();
+            databaseService.createDatabase(databaseName);
+        } catch (AssertionError ignored) {}
     }
 
     @After
     public void after() {
-        DatabaseService databaseService = new DatabaseService();
-        databaseService.deleteDatabase(databaseName);
+        try {
+            DatabaseService databaseService = new DatabaseService();
+            databaseService.deleteDatabase(databaseName);
+        } catch (AssertionError ignored) {}
     }
 
     @Test
@@ -34,26 +46,26 @@ public class TableServiceTest {
         TableService tableService = new TableService();
         tableService.createTable(databaseName, tableName, Arrays.asList("Name", "Age", "Phone"));
 
-        assertNotNull(new CRUDService().select(databaseName, tableName, null));
+        assertEquals(Collections.emptyList(), new CRUDService().select(databaseName, tableName, params));
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void CreateTable_False() {
         TableService tableService = new TableService();
         tableService.createTable(databaseName, tableName, Arrays.asList("Name", "Age", "Phone"));
 
-        assertNull(new CRUDService().select(databaseName, "TableDoesNotExist", null));
+        new CRUDService().select(databaseName, "TableDoesNotExist", params);
     }
 
-    @Test
-    public void DeleteTable_True() {
+    @Test(expected = AssertionError.class)
+    public void DeleteTable_whenTableDoesNotExist() {
         TableService tableService = new TableService();
         tableService.deleteTable(databaseName, tableName);
 
-        assertNull(new CRUDService().select(databaseName, tableName, null));
+        new CRUDService().select(databaseName, tableName, params);
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void DeleteTable_whenExistMultipleTables() {
         TableService tableService = new TableService();
         tableService.createTable(databaseName, "Table1", Arrays.asList("Col1", "Col2", "Col3"));
@@ -61,7 +73,7 @@ public class TableServiceTest {
 
         tableService.deleteTable(databaseName, "Table1");
 
-        assertNull(new CRUDService().select(databaseName, "Table1", null));
+        new CRUDService().select(databaseName, "Table1", params);
     }
 
     @Test

@@ -16,8 +16,10 @@ public class DatabaseService {
 	private static final String databasesDirectory = "databases/";
 
 	public void createDatabase(String name) {
-		final String databaseFilePath = databasesDirectory + name + ".xml";
+		// precondition
+		assert !XmlWriterService.databaseExists(name) : "Database '" + name + "' already exists!";
 
+		final String databaseFilePath = databasesDirectory + name + ".xml";
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -33,32 +35,25 @@ public class DatabaseService {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+
+		//post condition
+		assert XmlWriterService.databaseExists(name) : "Can't create database with name: " + name;
 	}
 
 	public void deleteDatabase(String name) {
-		final String databaseFilePath = databasesDirectory + name + ".xml";
+		assert XmlWriterService.databaseExists(name) : "Database '" + name + "' does not exist";
 
-		if (!databaseExists(name)) {
-			System.out.println("Database does not exist!");
-			return;
-		}
-
-		File xmlFile = new File(databaseFilePath);
+		File xmlFile = new File(databasesDirectory + name + ".xml");
 		xmlFile.delete();
+
+		assert !XmlWriterService.databaseExists(name) : "Can't delete database with name: " + name;
 	}
 
 	public void changeDatabase(String name, String newName) {
+		assert XmlWriterService.databaseExists(name) : "Database '" + name + "' does not exist";
+		assert !name.equals(newName) : "Can't change database because new name is the same with old name";
+
 		final String databaseFilePath = databasesDirectory + name + ".xml";
-
-		if (!databaseExists(name)) {
-			System.out.println("Database does not exist!");
-			return;
-		}
-
-		if (name.equals(newName)) {
-			return;
-		}
-
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
@@ -75,6 +70,8 @@ public class DatabaseService {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
+
+		assert XmlWriterService.databaseExists(newName) : "Can't change database from '" + name + "' to '" + newName + "'";
 	}
 
 	public String[] getAllDatabases() {
@@ -90,13 +87,6 @@ public class DatabaseService {
 		}
 
 		return databaseNames;
-	}
-
-	private boolean databaseExists(String name) {
-		final String databaseFilePath = databasesDirectory + name + ".xml";
-
-		return new File(databaseFilePath).exists();
-
 	}
 
 }

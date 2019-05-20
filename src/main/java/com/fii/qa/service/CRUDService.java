@@ -126,7 +126,8 @@ public class CRUDService {
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
         List<Map<String, String>> selectedRows = new ArrayList<>();
 
-        assert values.size() > 0 : "\"Values\" is empty";
+        assert values != null &&  values.size() > 0 : "\"Values\" is empty";
+        assert XmlWriterService.tableExists(dbName, tableName) : "Table '" + tableName + "' does not exist!";
 
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
