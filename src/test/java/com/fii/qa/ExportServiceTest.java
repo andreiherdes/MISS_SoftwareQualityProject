@@ -64,7 +64,7 @@ public class ExportServiceTest {
 			e.printStackTrace();
 		}
 
-		assertTrue(new File("Export BD.csv").exists());
+		assertTrue(new File("Export_BD.csv").exists());
 	}
 
 	@After

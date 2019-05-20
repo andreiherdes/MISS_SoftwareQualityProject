@@ -95,8 +95,12 @@ public class ExportService {
 
 	public static void exportTable(String databasename, String tableName) {
 		List<List<String>> tableData = getData(databasename, tableName);
+		
+		assert XmlWriterService.tableExists(databasename, tableName) : "Table does not exist";
+		
+		String fileName = "Export_" + tableName + ".csv";
 
-		File csvFile = new File("Export " + tableName + ".csv");
+		File csvFile = new File(fileName);
 		try {
 			FileWriter outputfile = new FileWriter(csvFile);
 			CSVWriter writer = new CSVWriter(outputfile);
@@ -111,13 +115,17 @@ public class ExportService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assert csvFile.exists() : "Table was not exported";
 	}
 
 	public static void exportDatabase(String databaseName)
 			throws IOException, ParserConfigurationException, SAXException {
 		final String databaseFilePath = databasesDirectory + databaseName + ".xml";
 
-		File csvFile = new File("Export " + databaseName + ".csv");
+		String fileName = "Export_" + databaseName + ".csv";
+		
+		File csvFile = new File(fileName);
 		CSVWriter writer = new CSVWriter(new FileWriter(csvFile));
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -138,6 +146,8 @@ public class ExportService {
 		}
 		// closing writer connection
 		writer.close();
+		
+		assert csvFile.exists() : "Table was not exported";
 
 	}
 

@@ -1,6 +1,7 @@
 package com.fii.qa.service;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -12,6 +13,8 @@ public class ImportService {
         DatabaseService databaseService = new DatabaseService();
         TableService tableService = new TableService();
         CRUDService crudService = new CRUDService();
+        
+        assert new File(filePath).exists() : "Argument invalid. Path is not correct.";
 
         // create database
         databaseService.createDatabase(databaseName);
@@ -70,5 +73,7 @@ public class ImportService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        assert XmlWriterService.databaseExists(databaseName) : "Database was not created";
     }
 }
