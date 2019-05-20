@@ -67,10 +67,10 @@ public class CRUDServiceTest {
         assertEquals (new ArrayList<>(),crudService.select("BD","test",values));
     }
 
-    @Test
+    @Test(expected = AssertionError.class)
     public void selectRowTest_whenTableDoesNotExist() {
         CRUDService crudService = new CRUDService();
-        assertNull(crudService.select("BD","Gresit",null));
+        crudService.select("BD","Gresit",values);
     }
 
     @Test

@@ -64,6 +64,7 @@ public class CRUDService {
 
     public void deleteRow(String dbName, String tableName, Map<String ,String> values){
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
+
         assert values != null &&  values.size() > 0 : "\"Values\" is empty";
         assert XmlWriterService.tableExists(dbName, tableName) : "Table '" + tableName + "' does not exist!";
         try {
