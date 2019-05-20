@@ -21,7 +21,8 @@ public class CRUDService {
 
     public void insertRow(String dbName, String tableName, Map<String ,String> values){
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
-        assert values.size() > 0 : "\"Values\" is empty";
+        assert values != null &&  values.size() > 0 : "\"Values\" is empty";
+        assert XmlWriterService.tableExists(dbName, tableName) : "Table '" + tableName + "' does not exist!";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -63,7 +64,8 @@ public class CRUDService {
 
     public void deleteRow(String dbName, String tableName, Map<String ,String> values){
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
-        assert values.size() > 0 : "\"Values\" is empty";
+        assert values != null &&  values.size() > 0 : "\"Values\" is empty";
+        assert XmlWriterService.tableExists(dbName, tableName) : "Table '" + tableName + "' does not exist!";
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -194,7 +196,8 @@ public class CRUDService {
     public void update(String dbName, String tableName, Map<String, String> params, Map<String, String> values) {
         final String databaseFilePath = databasesDirectory + dbName + ".xml";
 
-        assert values.size() > 0 : "\"Values\" is empty";
+        assert values != null &&  values.size() > 0 : "\"Values\" is empty";
+        assert XmlWriterService.tableExists(dbName, tableName) : "Table '" + tableName + "' does not exist!";
         // select rows need to be updated
         List<Map<String, String>> selectedRows = select(dbName, tableName, params);
 
