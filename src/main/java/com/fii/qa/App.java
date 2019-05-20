@@ -1,15 +1,10 @@
 package com.fii.qa;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import com.fii.qa.ui.DatabasePanel;
-import com.fii.qa.ui.DropdownComponent;
 import com.fii.qa.ui.ImportExportPanel;
 import com.fii.qa.ui.TablePanel;
 
@@ -58,17 +53,5 @@ public class App extends JFrame {
 				new App(); // Let the constructor do the job
 			}
 		});
-
-		/*
-		 * ScheduledExecutorService e = Executors.newSingleThreadScheduledExecutor();
-		 * e.scheduleAtFixedRate(new Runnable() {
-		 * 
-		 * @Override public void run() { SwingUtilities.invokeLater(new Runnable() {
-		 * 
-		 * @Override public void run() {
-		 * DropdownComponent.getInstance().updateDropdown(); }
-		 * 
-		 * }); } }, 0, 20, TimeUnit.SECONDS);
-		 */
 	}
 }
